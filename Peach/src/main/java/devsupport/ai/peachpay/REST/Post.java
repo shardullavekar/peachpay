@@ -11,7 +11,7 @@ import okhttp3.Response;
  * Created by shardullavekar on 19/08/17.
  */
 
-public class CheckoutId {
+public class Post {
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
 

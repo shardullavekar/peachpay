@@ -22,11 +22,10 @@ import com.oppwa.mobile.connect.provider.TransactionType;
 import com.oppwa.mobile.connect.service.ConnectService;
 import com.oppwa.mobile.connect.service.IProviderBinder;
 
-import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import devsupport.ai.peachpay.REST.CheckoutId;
+import devsupport.ai.peachpay.API.Checkout;
 
 public class PeachPay extends AppCompatActivity {
     private IProviderBinder binder;
@@ -34,7 +33,7 @@ public class PeachPay extends AppCompatActivity {
     private ServiceConnection serviceConnection;
 
     String server_url,
-            amount, currency, type, env;
+            amount, currency, type, env, checkoutId;
 
     ApplicationInfo app;
 
@@ -120,16 +119,18 @@ public class PeachPay extends AppCompatActivity {
     }
 
     private void getCheckoutId() {
-        CheckoutId checkoutId = new CheckoutId();
-        try {
-            String id = checkoutId.getId(server_url, amount, currency, type);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Checkout checkout = new Checkout();
+        checkout.post(server_url, amount, currency, type, new Callback() {
+            @Override
+            public void onResponse(String response) {
+                dismissDialogue();
+            }
+        });
+        showDialogue("Getting Checkout Id");
     }
 
     private void configCheckout(String checkoutId) {
+        this.checkoutId = checkoutId;
         Set<String> paymentBrands = new LinkedHashSet<String>();
 
         paymentBrands.add("VISA");
@@ -185,6 +186,7 @@ public class PeachPay extends AppCompatActivity {
 
                 if (transaction.getTransactionType() == TransactionType.SYNC) {
                 /* check the result of synchronous transaction */
+                endActivity(Config.SUCCESS, "checkoutId=" + checkoutId);
                 } else {
                 /* wait for the asynchronous transaction callback in the onNewIntent() */
                 }
@@ -202,6 +204,16 @@ public class PeachPay extends AppCompatActivity {
         }
     }
 
+    private void showDialogue(String message) {
+        dialog.setMessage(message);
+        dialog.show();
+    }
+
+    private void dismissDialogue() {
+        if (dialog.isShowing()) {
+            dialog.dismiss();
+        }
+    }
     private void endActivity(int resultCode, String message) {
         Intent data = new Intent();
         data.putExtra("response", message);
