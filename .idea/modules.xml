@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Peach/Peach.iml" filepath="$PROJECT_DIR$/Peach/Peach.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PeachPay.iml" filepath="$PROJECT_DIR$/PeachPay.iml" />
+      <module fileurl="file://$PROJECT_DIR$/oppwa.mobile-2.0.0/oppwa.mobile-2.0.0.iml" filepath="$PROJECT_DIR$/oppwa.mobile-2.0.0/oppwa.mobile-2.0.0.iml" />
+    </modules>
+  </component>
+</project>
