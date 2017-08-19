@@ -27,6 +27,15 @@
             android:name="com.oppwa.mobile.connect.service.ConnectService"
             android:exported="false"/>
 
+        <receiver
+            android:name=".Receiver.CheckoutBroadcastReceiver"
+            android:exported="false">
+
+            <intent-filter>
+                <action android:name="com.oppwa.mobile.connect.checkout.ACTION_PAYMENT_METHOD_SELECTED"/>
+            </intent-filter>
+
+        </receiver>
 
     </application>
 

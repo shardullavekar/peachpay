@@ -26,6 +26,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import devsupport.ai.peachpay.API.Checkout;
+import devsupport.ai.peachpay.Receiver.CheckoutBroadcastReceiver;
 
 public class PeachPay extends AppCompatActivity {
     private IProviderBinder binder;
@@ -124,6 +125,7 @@ public class PeachPay extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 dismissDialogue();
+                configCheckout(response);
             }
         });
         showDialogue("Getting Checkout Id");
@@ -131,7 +133,7 @@ public class PeachPay extends AppCompatActivity {
 
     private void configCheckout(String checkoutId) {
         this.checkoutId = checkoutId;
-        Set<String> paymentBrands = new LinkedHashSet<String>();
+        Set<String> paymentBrands = new LinkedHashSet<>();
 
         paymentBrands.add("VISA");
         paymentBrands.add("MASTER");
@@ -139,8 +141,12 @@ public class PeachPay extends AppCompatActivity {
 
         CheckoutSettings checkoutSettings = new CheckoutSettings(checkoutId, paymentBrands);
 
+        ComponentName componentName = new ComponentName(BuildConfig.APPLICATION_ID,
+                CheckoutBroadcastReceiver.class.getCanonicalName());
+
         Intent intent = new Intent(PeachPay.this, CheckoutActivity.class);
         intent.putExtra(CheckoutActivity.CHECKOUT_SETTINGS, checkoutSettings);
+        intent.putExtra(CheckoutActivity.CHECKOUT_RECEIVER, componentName);
 
         startActivityForResult(intent, CheckoutActivity.CHECKOUT_ACTIVITY);
     }
