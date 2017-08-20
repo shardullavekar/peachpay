@@ -10,4 +10,5 @@ public class Config {
     public final static int FAILED = 20;
     public final static String TEST = "test";
     public final static String PROD = "prod";
+    public final static String PEACH_SUCCESS = "000.200.100";
 }

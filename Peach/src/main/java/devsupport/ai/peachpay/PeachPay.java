@@ -22,6 +22,9 @@ import com.oppwa.mobile.connect.provider.TransactionType;
 import com.oppwa.mobile.connect.service.ConnectService;
 import com.oppwa.mobile.connect.service.IProviderBinder;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -125,6 +128,21 @@ public class PeachPay extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 dismissDialogue();
+                JSONObject jsonObject;
+                try {
+                    jsonObject = new JSONObject(response);
+                    JSONObject result = jsonObject.getJSONObject("result");
+                    if (TextUtils.equals(result.getString("code"), Config.PEACH_SUCCESS)) {
+                        configCheckout(jsonObject.getString("id"));
+                    }
+                    else {
+                        endActivity(Config.FAILED, result.getString("description"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    endActivity(Config.FAILED, "Unable to fetch failure reason");
+                }
+
                 configCheckout(response);
             }
         });
@@ -173,7 +191,7 @@ public class PeachPay extends AppCompatActivity {
         }
 
         if (TextUtils.isEmpty(env)) {
-            endActivity(Config.FAILED, "Invalid Enviro");
+            endActivity(Config.FAILED, "Invalid Environment");
             return false;
         }
 
