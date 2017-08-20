@@ -2,7 +2,10 @@ package devsupport.ai.peachpay.API;
 
 import android.os.AsyncTask;
 
+import java.io.IOException;
+
 import devsupport.ai.peachpay.Callback;
+import devsupport.ai.peachpay.REST.Post;
 
 /**
  * Created by shardullavekar on 19/08/17.
@@ -25,7 +28,15 @@ public class Checkout {
         }
         @Override
         protected String doInBackground(String... params) {
-            return null;
+            Post post = new Post();
+            String checkoutResponse;
+            try {
+                checkoutResponse = post.getId(params[0], params[1], params[2], params[3]);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "ioException - check your net connection";
+            }
+            return checkoutResponse;
         }
 
         @Override

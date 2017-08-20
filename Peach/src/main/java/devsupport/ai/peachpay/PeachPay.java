@@ -143,7 +143,6 @@ public class PeachPay extends AppCompatActivity {
                     endActivity(Config.FAILED, "Unable to fetch failure reason");
                 }
 
-                configCheckout(response);
             }
         });
         showDialogue("Getting Checkout Id");
