@@ -157,6 +157,7 @@ public class PeachPay extends AppCompatActivity {
         paymentBrands.add("DIRECTDEBIT_SEPA");
 
         CheckoutSettings checkoutSettings = new CheckoutSettings(checkoutId, paymentBrands);
+        checkoutSettings.setWebViewEnabledFor3DSecure(true);
 
         ComponentName componentName = new ComponentName(BuildConfig.APPLICATION_ID,
                 CheckoutBroadcastReceiver.class.getCanonicalName());

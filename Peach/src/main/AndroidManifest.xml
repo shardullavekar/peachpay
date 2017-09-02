@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="devsupport.ai.peachpay">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -12,31 +12,37 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PeachPay">
-        </activity>
-
+        <activity android:name=".PeachPay"></activity>
         <activity
-            tools:replace="android:theme"
             android:name="com.oppwa.mobile.connect.checkout.dialog.CheckoutActivity"
+            android:exported="false"
+            android:launchMode="singleTop"
             android:theme="@style/Theme.Checkout.Light"
             android:windowSoftInputMode="adjustPan"
-            android:exported="false"
-            android:launchMode="singleTop"/>
+            tools:replace="android:theme" />
 
         <service
             android:name="com.oppwa.mobile.connect.service.ConnectService"
-            android:exported="false"/>
+            android:exported="false" />
 
         <receiver
             android:name=".Receiver.CheckoutBroadcastReceiver"
             android:exported="false">
-
             <intent-filter>
-                <action android:name="com.oppwa.mobile.connect.checkout.ACTION_PAYMENT_METHOD_SELECTED"/>
+                <action android:name="com.oppwa.mobile.connect.checkout.ACTION_PAYMENT_METHOD_SELECTED" />
             </intent-filter>
-
         </receiver>
 
+        <activity android:name=".CustomActivity"
+                  android:launchMode="singleTask">
+            <intent-filter>
+                <data android:scheme="devsupport"/>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>
