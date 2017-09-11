@@ -11,7 +11,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.oppwa.mobile.connect.checkout.dialog.CheckoutActivity;
 import com.oppwa.mobile.connect.checkout.meta.CheckoutSettings;
@@ -108,10 +107,10 @@ public class PeachPay extends AppCompatActivity {
                         binder.initializeProvider(Connect.ProviderMode.LIVE);
                     }
                     else {
-                        endActivity(Config.FAILED, "Invalid Environment");
+                        fireBroadcast(Config.FAILED, "Invalid Environment");
                     }
                 } catch (PaymentException ee) {
-	                endActivity(Config.FAILED, ee.getMessage());
+                    fireBroadcast(Config.FAILED, ee.getMessage());
                 }
 
             }
@@ -137,11 +136,11 @@ public class PeachPay extends AppCompatActivity {
                         configCheckout(jsonObject.getString("id"));
                     }
                     else {
-                        endActivity(Config.FAILED, result.getString("description"));
+                        fireBroadcast(Config.FAILED, result.getString("description"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    endActivity(Config.FAILED, "Unable to fetch failure reason");
+                    fireBroadcast(Config.FAILED, "Unable to fetch failure reason");
                 }
 
             }
@@ -172,27 +171,27 @@ public class PeachPay extends AppCompatActivity {
 
     private boolean checkValidation() {
         if (TextUtils.isEmpty(server_url)) {
-            endActivity(Config.FAILED, "Invalid Order URL");
+            fireBroadcast(Config.FAILED, "Invalid Order URL");
             return false;
         }
 
         if (TextUtils.isEmpty(amount)) {
-            endActivity(Config.FAILED, "Invalid Amount");
+            fireBroadcast(Config.FAILED, "Invalid Amount");
             return false;
         }
 
         if (TextUtils.isEmpty(currency)) {
-            endActivity(Config.FAILED, "Invalid Currency");
+            fireBroadcast(Config.FAILED, "Invalid Currency");
             return false;
         }
 
         if (TextUtils.isEmpty(type)) {
-            endActivity(Config.FAILED, "Invalid Type");
+            fireBroadcast(Config.FAILED, "Invalid Type");
             return false;
         }
 
         if (TextUtils.isEmpty(env)) {
-            endActivity(Config.FAILED, "Invalid Environment");
+            fireBroadcast(Config.FAILED, "Invalid Environment");
             return false;
         }
 
@@ -211,18 +210,18 @@ public class PeachPay extends AppCompatActivity {
 
                 if (transaction.getTransactionType() == TransactionType.SYNC) {
                 /* check the result of synchronous transaction */
-                endActivity(Config.SUCCESS, "checkoutId=" + checkoutId);
+                    fireBroadcast(Config.SUCCESS, "checkoutId=" + checkoutId);
                 } else {
                 /* wait for the asynchronous transaction callback in the onNewIntent() */
                 }
 
                 break;
             case CheckoutActivity.RESULT_CANCELED:
-                endActivity(Config.FAILED, "Shoper cancelled transaction");
+                fireBroadcast(Config.FAILED, "Shoper cancelled transaction");
                 break;
             case CheckoutActivity.RESULT_ERROR:
                 PaymentError error = data.getParcelableExtra(CheckoutActivity.CHECKOUT_RESULT_ERROR);
-                endActivity(Config.FAILED, error.getErrorMessage());
+                fireBroadcast(Config.FAILED, error.getErrorMessage());
                 break;
             default:
                 break;
@@ -235,8 +234,7 @@ public class PeachPay extends AppCompatActivity {
 
         if (intent.getScheme().equals("devsupport")) {
             String checkoutId = intent.getData().getQueryParameter("id");
-            Toast.makeText(getApplicationContext(), checkoutId, Toast.LENGTH_LONG)
-                    .show();
+            fireBroadcast(Config.SUCCESS, "checkoutId=" + checkoutId);
         }
     }
 
@@ -250,11 +248,14 @@ public class PeachPay extends AppCompatActivity {
             dialog.dismiss();
         }
     }
-    private void endActivity(int resultCode, String message) {
-        Intent data = new Intent();
-        data.putExtra("response", message);
-        setResult(resultCode, data);
+
+    private void fireBroadcast(int code, String message) {
+        Intent intent = new Intent();
+        intent.setAction("ai.devsupport.peachpay");
+        intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+        intent.putExtra("code", code);
+        intent.putExtra("response", message);
+        sendBroadcast(intent);
         PeachPay.this.finish();
-        return;
     }
 }
