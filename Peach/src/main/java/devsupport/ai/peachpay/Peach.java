@@ -43,13 +43,19 @@ public class Peach extends BroadcastReceiver {
         Intent intent = new Intent(activity, PeachPay.class);
         intent.putExtra("amount", amount);
         intent.putExtra("currency", currency);
-        intent.putExtra("type", true);
+        intent.putExtra("type", type);
         intent.putExtra("env", env);
         activity.startActivity(intent);
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
+        int code = intent.getIntExtra("code", Config.FAILED);
+        if (code == Config.SUCCESS) {
+            listener.onSuccess(intent.getStringExtra("response"));
+        }
+        else {
+            listener.onFailure(Config.FAILED, intent.getStringExtra("response"));
+        }
     }
 }

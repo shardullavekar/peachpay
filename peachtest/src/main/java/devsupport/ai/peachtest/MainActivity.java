@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         Peach peachPay = new Peach(pay, activity, peachListener);
         IntentFilter filter = new IntentFilter("ai.devsupport.peachpay");
         registerReceiver(peachPay, filter);
-
+        peachPay.start();
     }
 
     private void initListener() {
