@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         /*Uncomment the following line to see the payments working*/
 
-        callPeachPayments("92.00", "EUR", "DB", Config.TEST);
+        callPeachPayments("95.00", "EUR", "DB", Config.TEST);
     }
 
     private void callPeachPayments(String amount, String currency, String type, String env) {
