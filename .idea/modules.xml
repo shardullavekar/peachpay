@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Peach/Peach.iml" filepath="$PROJECT_DIR$/Peach/Peach.iml" />
       <module fileurl="file://$PROJECT_DIR$/PeachPay.iml" filepath="$PROJECT_DIR$/PeachPay.iml" />
-      <module fileurl="file://$PROJECT_DIR$/oppwa.mobile-2.0.0/oppwa.mobile-2.0.0.iml" filepath="$PROJECT_DIR$/oppwa.mobile-2.0.0/oppwa.mobile-2.0.0.iml" />
+      <module fileurl="file://$PROJECT_DIR$/oppwa.mobile-2.2.0/oppwa.mobile-2.2.0.iml" filepath="$PROJECT_DIR$/oppwa.mobile-2.2.0/oppwa.mobile-2.2.0.iml" />
       <module fileurl="file://$PROJECT_DIR$/peachtest/peachtest.iml" filepath="$PROJECT_DIR$/peachtest/peachtest.iml" />
     </modules>
   </component>

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.oppwa.mobile.connect.checkout.dialog.CheckoutActivity;
 import com.oppwa.mobile.connect.checkout.meta.CheckoutSettings;
@@ -164,7 +165,7 @@ public class PeachPay extends AppCompatActivity {
 
         Intent intent = new Intent(PeachPay.this, CheckoutActivity.class);
         intent.putExtra(CheckoutActivity.CHECKOUT_SETTINGS, checkoutSettings);
-        intent.putExtra(CheckoutActivity.CHECKOUT_RECEIVER, componentName);
+        //intent.putExtra(CheckoutActivity.CHECKOUT_RECEIVER, componentName);
 
         startActivityForResult(intent, CheckoutActivity.CHECKOUT_ACTIVITY);
     }
@@ -225,6 +226,17 @@ public class PeachPay extends AppCompatActivity {
                 break;
             default:
                 break;
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        if (intent.getScheme().equals("devsupport")) {
+            String checkoutId = intent.getData().getQueryParameter("id");
+            Toast.makeText(getApplicationContext(), checkoutId, Toast.LENGTH_LONG)
+                    .show();
         }
     }
 

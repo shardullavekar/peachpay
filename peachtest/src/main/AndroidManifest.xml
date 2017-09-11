@@ -16,7 +16,7 @@
         </activity>
 
         <meta-data android:name="server.url.peachpay"
-            android:value="http://192.168.0.102/peachpay.php"
+            android:value="http://192.168.0.103/peachpay.php"
             />
 
     </application>

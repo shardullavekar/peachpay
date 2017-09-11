@@ -1,9 +1,7 @@
 package devsupport.ai.peachpay;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
+import android.support.v7.app.AppCompatActivity;
 
 public class CustomActivity extends AppCompatActivity {
 
@@ -13,14 +11,4 @@ public class CustomActivity extends AppCompatActivity {
         setContentView(R.layout.activity_custom);
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-
-        if (intent.getScheme().equals("devsupport")) {
-            String checkoutId = intent.getData().getQueryParameter("id");
-            Toast.makeText(getApplicationContext(), checkoutId, Toast.LENGTH_LONG)
-                    .show();
-        }
-    }
 }
